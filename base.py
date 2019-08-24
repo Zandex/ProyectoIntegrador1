@@ -12,8 +12,10 @@ datos=[
     {'fecha':'2019-08-9 12:24:32',**tipo_datos,'valor':2500.0},
     {'fecha':'2019-08-10 13:24:32',**tipo_datos,'valor':1600.0},
     {'fecha':'2019-08-10 14:23:32',**tipo_datos,'valor':20000.0},
-    {'fecha':'2019-08-11 14:24:32',**tipo_datos,'valor':33000.0},
-    {'fecha':'2019-08-12 14:24:32',**tipo_datos,'valor':1000.0},
+    {'fecha':'2019-08-11 16:24:32',**tipo_datos,'valor':33000.0},
+    {'fecha':'2019-08-12 17:24:32',**tipo_datos,'valor':1000.0},
+    {'fecha':'2019-08-12 18:24:32',**tipo_datos,'valor':37000.0},
+    {'fecha':'2019-08-13 19:24:32',**tipo_datos,'valor':5000.0}
 ]
 
 @app.route('/')
@@ -56,12 +58,24 @@ def postdate():
 
 @app.route('/datos/fecha/<fecha>', methods = ['DELETE'])
 def delete(fecha):
-    x=False
-    res=[]
+    x=len(datos)
+    index=0
+    while(index<x-1):
+        print(datos[index])
+        if(str(datos[index]['fecha']).find(fecha)>=0):
+            datos.pop(index)  
+            x=x-1
+        else:
+            index=index+1     
+    return jsonify(datos)
+
+@app.route('/datos/fecha/<fecha>', methods = ['PUT'])
+def put(fecha):
+    body=request.json
     for x in datos:
-        if(fecha==x['fecha']):
-            datos.remove(x)  
-            
-    return jsonify(res)
+        if((x['fecha']).find(fecha)>=0):
+            x['valor']=body['valor']
+            return x          
+    return jsonify(datos)
 
 app.run(debug=True, port=5000) #run app in debug mode on port 5000
