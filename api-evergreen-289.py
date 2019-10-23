@@ -5,6 +5,10 @@ from Controles.participante import participante
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/',methods=['GET'])
+def test:
+    return "HOLA estas en el API"
+
 @app.route('/getpeople',methods=['GET'])
 def getdata():
     return participante.list()
