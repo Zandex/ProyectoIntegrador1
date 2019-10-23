@@ -18,5 +18,4 @@ def setpeople():
     body=request.json
     return participante.create(body)
 
-app.run()
 #app.run(port=5000,debug=True)
